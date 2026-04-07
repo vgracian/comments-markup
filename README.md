@@ -32,10 +32,8 @@ Full spec: [spec/CommentsMarkup.md](spec/CommentsMarkup.md)
 
 ## Implementations
 
-*Planned:*
-
-- Obsidian plugin
-- Python parser
+- [Obsidian plugin](plugins/obsidian/) — renders comments in the editor, sidebar panel, commands for inserting and managing comments
+- Python parser *(planned)*
 
 ## Why
 
@@ -47,6 +45,6 @@ CommentsMarkup fills that gap: a minimal, plain-text-native syntax for collabora
 
 ## License
 
-This work is licensed under [Creative Commons Attribution 4.0 International (CC BY 4.0)](https://creativecommons.org/licenses/by/4.0/).
+Copyright 2026 V. Gracia.
 
-See [LICENSE](LICENSE) for the full text.
+This work is licensed under [Creative Commons Attribution 4.0 International (CC BY 4.0)](https://creativecommons.org/licenses/by/4.0/). See [LICENSE](LICENSE) for the full text.

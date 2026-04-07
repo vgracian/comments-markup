@@ -25,6 +25,9 @@ __pycache__/
 *.pyc
 *.pyo
 
-# Node (for future Obsidian plugin)
+# Node
 node_modules/
 dist/
+
+# Obsidian plugin build artifacts
+plugins/obsidian/main.js

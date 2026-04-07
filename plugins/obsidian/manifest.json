@@ -1,0 +1,9 @@
+{
+  "id": "comments-markup",
+  "name": "CommentsMarkup",
+  "version": "0.1.0",
+  "minAppVersion": "1.0.0",
+  "description": "Collaborative commenting in Markdown: anchors, threaded replies, authorship, and resolution.",
+  "author": "V. Gracia",
+  "isDesktopOnly": false
+}
