@@ -1,0 +1,30 @@
+# Claude Code
+.claude/
+CLAUDE.md
+
+# Obsidian
+.obsidian/
+
+# macOS
+.DS_Store
+.AppleDouble
+.LSOverride
+._*
+.Spotlight-V100
+.Trashes
+
+# Windows
+Thumbs.db
+ehthumbs.db
+Desktop.ini
+$RECYCLE.BIN/
+*.lnk
+
+# Python
+__pycache__/
+*.pyc
+*.pyo
+
+# Node (for future Obsidian plugin)
+node_modules/
+dist/
