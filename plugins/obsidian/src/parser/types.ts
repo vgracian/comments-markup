@@ -7,7 +7,7 @@ export interface Anchor {
 
 export interface ReplyEntry {
 	id: string;
-	number: number;
+	numbers: number[];  // nesting path, e.g. [1] for .1, [1, 1] for .1.1
 	author: string;
 	date: string;
 	text: string;
@@ -27,4 +27,6 @@ export interface CommentEntry {
 export interface ParsedDocument {
 	anchors: Anchor[];
 	comments: CommentEntry[];
+	documentComments: CommentEntry[];
+	warnings: string[];
 }

@@ -91,8 +91,9 @@ export class CommentsSidebarView extends ItemView {
 			this.render();
 		});
 
-		const count = this.parsed.comments.length;
-		const openCount = this.parsed.comments.filter(
+		const allComments = [...this.parsed.comments, ...this.parsed.documentComments];
+		const count = allComments.length;
+		const openCount = allComments.filter(
 			(c) => c.state === "open"
 		).length;
 		toolbar.createEl("span", {
@@ -104,8 +105,8 @@ export class CommentsSidebarView extends ItemView {
 		const list = contentEl.createEl("div", { cls: "cm-sidebar-list" });
 
 		const comments = this.showOpenOnly
-			? this.parsed.comments.filter((c) => c.state === "open")
-			: this.parsed.comments;
+			? allComments.filter((c) => c.state === "open")
+			: allComments;
 
 		if (comments.length === 0) {
 			list.createEl("div", {
@@ -228,7 +229,10 @@ export class CommentsSidebarView extends ItemView {
 							const parsed = parseDocument(source);
 							const c = parsed.comments.find((x) => x.id === comment.id);
 							if (!c) return source;
-							const r = c.replies.find((x) => x.number === reply.number);
+							const r = c.replies.find((x) =>
+								x.numbers.length === reply.numbers.length &&
+								x.numbers.every((n, i) => n === reply.numbers[i])
+							);
 							if (!r) return source;
 							const line = lines[r.line];
 							const colonIdx = line.indexOf(": ");
@@ -271,8 +275,10 @@ export class CommentsSidebarView extends ItemView {
 					const c = parsed.comments.find((x) => x.id === comment.id);
 					if (!c) return source;
 
-					const nextNum = c.replies.length > 0
-						? Math.max(...c.replies.map((r) => r.number)) + 1
+					// Next reply number at depth 1 (direct replies to root)
+					const directReplies = c.replies.filter((r) => r.numbers.length === 1);
+					const nextNum = directReplies.length > 0
+						? Math.max(...directReplies.map((r) => r.numbers[0])) + 1
 						: 1;
 					const date = formatDate(
 						this.plugin.settings.dateFormat,
@@ -352,13 +358,13 @@ export class CommentsSidebarView extends ItemView {
 			const lines = source.split("\n");
 			const escapedId = commentId.replace(/[.*+?^${}()|[\]\\]/g, "\\$&");
 			const re = new RegExp(
-				`^(\\s*\\{\\^${escapedId}\\s+\\[)([ x])(\\]\\}.*)$`
+				`^(\\s*\\{\\^${escapedId}\\s+\\[)([ xX])(\\]\\}.*)$`
 			);
 
 			for (let i = 0; i < lines.length; i++) {
 				const match = lines[i].match(re);
 				if (match) {
-					const newState = match[2] === "x" ? " " : "x";
+					const newState = match[2] === " " ? "x" : " ";
 					lines[i] = match[1] + newState + match[3];
 					break;
 				}

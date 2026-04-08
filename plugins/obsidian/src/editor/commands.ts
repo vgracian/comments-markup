@@ -161,12 +161,12 @@ function replyToComment(editor: Editor, plugin: CommentsMarkupPlugin) {
 	const currentLine = editor.getLine(cursor.line);
 
 	// Try to detect which comment the cursor is on
-	const commentRe = /\{\^([a-zA-Z0-9_-]+)(?:\s+\[[ x]\]|\.\d+)\}/;
+	const commentRe = /\{\^([a-zA-Z][a-zA-Z0-9_-]*)(?:\s+\[[ xX]\]|(?:\.\d+)+)\}/;
 	const match = currentLine.match(commentRe);
 
 	if (!match) {
 		// Try to find a nearby anchor
-		const anchorRe = /\{\^([a-zA-Z0-9_-]+)\}/;
+		const anchorRe = /\{\^([a-zA-Z][a-zA-Z0-9_-]*)\}/;
 		const anchorMatch = currentLine.match(anchorRe);
 		if (anchorMatch) {
 			addReply(editor, plugin, parsed, anchorMatch[1]);
@@ -192,9 +192,10 @@ function addReply(
 	const comment = parsed.comments.find((c) => c.id === commentId);
 	if (!comment) return;
 
+	const directReplies = comment.replies.filter((r) => r.numbers.length === 1);
 	const nextReplyNum =
-		comment.replies.length > 0
-			? Math.max(...comment.replies.map((r) => r.number)) + 1
+		directReplies.length > 0
+			? Math.max(...directReplies.map((r) => r.numbers[0])) + 1
 			: 1;
 
 	const date = formatDate(
@@ -239,11 +240,11 @@ function toggleResolve(editor: Editor) {
 	const cursor = editor.getCursor();
 	const line = editor.getLine(cursor.line);
 
-	const commentRe = /^(\s*\{\^[a-zA-Z0-9_-]+\s+\[)([ x])(\]\}.*)$/;
+	const commentRe = /^(\s*\{\^[a-zA-Z][a-zA-Z0-9_-]*\s+\[)([ xX])(\]\}.*)$/;
 	const match = line.match(commentRe);
 	if (!match) return;
 
-	const newState = match[2] === "x" ? " " : "x";
+	const newState = match[2] === " " ? "x" : " ";
 	const newLine = match[1] + newState + match[3];
 	editor.replaceRange(
 		newLine,
