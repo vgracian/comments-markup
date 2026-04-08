@@ -1,47 +1,51 @@
 # CommentsMarkup
 
-A Markdown extension for collaborative commenting.
-
-Where [CriticMarkup](https://criticmarkup.com/) handles editing (insertions, deletions, substitutions), CommentsMarkup handles conversation: who said what, about which part, and whether it has been resolved.
+A Markdown extension for threaded commenting. Complementary to [CriticMarkup](https://criticmarkup.com/): CriticMarkup handles editing (track changes), CommentsMarkup handles conversation (comments, threads, resolution).
 
 ## Quick Example
 
 ```markdown
-The migration to the new API should be completed by Q3{^c1}.
+The migration should be completed by Q3{^q1}. All teams
+must update their client libraries{^t1} before the cutoff.
 
 ## Comments
 
-{^c1 [x]} @alice 2026-03-15: Are we sure Q3 is realistic?
-  {^c1.1} @bob 2026-03-15: Yes, discussed in planning. Assumes two new hires by May.
+{^q1 [x]} @alice 2026-03-15: Are we sure Q3 is realistic?
+  {^q1.1} @bob 2026-03-15: Yes, discussed in planning. Assumes two new hires by May.
+  {^q1.2} @alice 2026-03-15: OK, but what if hiring slips?
+    {^q1.2.1} @bob 2026-03-15: Then we push to Q4.
+
+{^t1 [ ]} @carol 2026-03-16: Update the migration guide before teams start.
 ```
 
 ## Syntax at a Glance
 
 | Element | Syntax | Example |
 |---------|--------|---------|
-| Anchor | `{^id}` | `{^c1}` |
+| Anchor | `{^id}` | `{^c1}`, `{^q1}`, `{^check-deps}` |
 | Comment (open) | `{^id [ ]} @author date: text` | `{^c1 [ ]} @alice 2026-04-07: Needs source` |
 | Comment (resolved) | `{^id [x]} @author date: text` | `{^c1 [x]} @alice 2026-04-07: Needs source` |
 | Reply | `{^id.n} @author date: text` | `{^c1.1} @bob 2026-04-07: Done` |
+| Nested reply | `{^id.n.n} @author date: text` | `{^c1.1.1} @carol 2026-04-07: Confirmed` |
+| Document-level | `{^id [ ]} @author date: text` (no anchor) | `{^doc [ ]} @_claude 2026-04-07: No tests found` |
+| Escape | `\{^` | Literal `{^`, not an anchor |
 
-Dates follow ISO 8601. When time is included, timezone is required: `2026-04-07T15:30+02:00`.
+IDs MUST start with a letter. Teams MAY use prefixes (`c` comment, `q` question, `t` task, `r` review) or descriptive IDs (`{^check-deps}`). Dates use ISO 8601; timezone is required when time is present.
 
 ## Specification
 
-Full spec: [spec/CommentsMarkup.md](spec/CommentsMarkup.md)
+Full spec: [spec/CommentsMarkup.md](spec/CommentsMarkup.md) (v0.2.0)
 
 ## Implementations
 
-- [Obsidian plugin](plugins/obsidian/) — renders comments in the editor, sidebar panel, commands for inserting and managing comments
+- [Obsidian plugin](plugins/obsidian/) — editor decorations, sidebar panel, commands for inserting and managing comments
 - Python parser *(planned)*
 
 ## Why
 
-Markdown has become the lingua franca of technical writing, documentation, and data management. Tools like Obsidian have made it the foundation of collaborative vaults where multiple people think, write, and build together.
+Markdown has no native way to say «I have a question about this paragraph», attribute it, thread a reply, and mark it resolved. CriticMarkup solved the editing problem, but the conversation problem remains open.
 
-Yet Markdown has no native way to comment. No way to say “I have a question about this paragraph,” attribute it, thread a reply, and mark it resolved. CriticMarkup solved the *editing* problem (track changes), but the *conversation* problem remains open.
-
-CommentsMarkup fills that gap: a minimal, plain-text-native syntax for collaborative commenting that works in any Markdown file, travels with git, and can be rendered by any tool that chooses to support it.
+CommentsMarkup fills that gap: a minimal, plain-text syntax for threaded commenting that works in any Markdown file and travels with git.
 
 ## License
 
