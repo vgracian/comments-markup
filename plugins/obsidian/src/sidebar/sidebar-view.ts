@@ -257,7 +257,10 @@ export class CommentsSidebarView extends ItemView {
 			});
 			input.focus();
 
+			let submitted = false;
 			const submit = () => {
+				if (submitted) return;
+				submitted = true;
 				const text = input.value.trim();
 				if (!text) {
 					this.refresh();
@@ -289,7 +292,7 @@ export class CommentsSidebarView extends ItemView {
 
 			input.addEventListener("keydown", (e) => {
 				if (e.key === "Enter") submit();
-				if (e.key === "Escape") this.refresh();
+				if (e.key === "Escape") { submitted = true; this.refresh(); }
 			});
 			input.addEventListener("blur", () => {
 				if (input.value.trim()) {
@@ -317,7 +320,10 @@ export class CommentsSidebarView extends ItemView {
 		input.focus();
 		input.select();
 
+		let saved = false;
 		const save = () => {
+			if (saved) return;
+			saved = true;
 			const newText = input.value.trim();
 			if (newText && newText !== currentText) {
 				onSave(newText);
@@ -328,7 +334,7 @@ export class CommentsSidebarView extends ItemView {
 
 		input.addEventListener("keydown", (e) => {
 			if (e.key === "Enter") save();
-			if (e.key === "Escape") this.refresh();
+			if (e.key === "Escape") { saved = true; this.refresh(); }
 		});
 		input.addEventListener("blur", save);
 	}
