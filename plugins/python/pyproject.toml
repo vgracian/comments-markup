@@ -1,0 +1,18 @@
+[build-system]
+requires = ["setuptools>=68.0"]
+build-backend = "setuptools.build_meta"
+
+[project]
+name = "commentsmarkup"
+version = "0.2.0"
+description = "Parser for CommentsMarkup — threaded commenting syntax for Markdown"
+readme = "README.md"
+license = "CC-BY-4.0"
+requires-python = ">=3.10"
+keywords = ["markdown", "comments", "markup", "parser"]
+
+[project.optional-dependencies]
+dev = ["pytest>=7"]
+
+[tool.pytest.ini_options]
+testpaths = ["tests"]
