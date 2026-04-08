@@ -38,9 +38,9 @@ Full spec: [spec/CommentsMarkup.md](spec/CommentsMarkup.md) (v0.2.0)
 
 ## Implementations
 
-- [Obsidian plugin](plugins/obsidian/) — editor decorations, sidebar panel, commands for inserting and managing comments
+- [Obsidian plugin](plugins/obsidian/) — editor decorations, sidebar panel, commands for inserting and managing comments. Install via [BRAT](https://github.com/TfTHacker/obsidian42-brat): `vgracian/obsidian-comments-markup` ([repo](https://github.com/vgracian/obsidian-comments-markup))
 - [AI agents](plugins/ai-agents/) — portable skill file for AI agents (Claude, Copilot, etc.)
-- Python parser *(planned)*
+- [Python parser](plugins/python/) — spec-conformant parser, CI/CD gates, AI agent tooling
 
 ## Why
 
