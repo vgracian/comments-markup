@@ -39,6 +39,7 @@ Full spec: [spec/CommentsMarkup.md](spec/CommentsMarkup.md) (v0.2.0)
 ## Implementations
 
 - [Obsidian plugin](plugins/obsidian/) — editor decorations, sidebar panel, commands for inserting and managing comments
+- [AI agents](plugins/ai-agents/) — portable skill file for AI agents (Claude, Copilot, etc.)
 - Python parser *(planned)*
 
 ## Why
